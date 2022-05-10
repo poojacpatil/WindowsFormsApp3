@@ -172,18 +172,19 @@ namespace WindowsFormsApp3
         {
             try
             {
-                string qry = "select max(Id)from product";
-                cmd=new SqlCommand(qry,con);
+                string qry = "delete from Product where Id=@id";
+                cmd = new SqlCommand(qry, con);
+                cmd.Parameters.AddWithValue("@id", Convert.ToInt32(txtId.Text));
+                cmd.Parameters.AddWithValue("@name", txtName.Text);
+                cmd.Parameters.AddWithValue("@price", Convert.ToInt32(txtPrice.Text));
                 con.Open();
-                dr=cmd.ExecuteReader();
-                if(dr.HasRows)
+                int res = cmd.ExecuteNonQuery();
+                if (res == 1)
                 {
-                    while(dr.Read())
-                    {
-                        txtName.Text = dr["Name"].ToString();
-                        txtPrice.Text=dr["Price"].ToString();
-                    }
+                    MessageBox.Show("Record delet");
                 }
+
+
                 else
                 {
                     MessageBox.Show("Record not found");
